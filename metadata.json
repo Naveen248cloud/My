@@ -1,0 +1,6 @@
+{
+  "name": "VibeShare",
+  "description": "Social media app for sharing videos, images, songs, files, and links with likes, comments, saves, shares, Google Sign-In, and built-in APK download.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

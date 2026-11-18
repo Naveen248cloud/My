@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">VibeShare</string>
+    <string name="tagline_social">Share text, videos, photos, songs, files &amp; links</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_create">Post</string>
+    <string name="nav_reels">Reels</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_settings">Settings</string>
+    <string name="action_like">Like</string>
+    <string name="action_comment">Comment</string>
+    <string name="action_share">Share</string>
+    <string name="action_save">Save</string>
+    <string name="action_saved">Saved</string>
+    <string name="download_app_title">Download VibeShare App</string>
+    <string name="download_app_subtitle">Tap below to automatically save the installable VibeShare APK to your Downloads folder.</string>
+    <string name="download_app_button">Download App (APK)</string>
+    <string name="download_app_no_login_hint">Download APK without logging in</string>
+    <string name="share_apk_button">Share APK</string>
+    <string name="sign_out">Sign Out</string>
+</resources>

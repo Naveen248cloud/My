@@ -1,0 +1,155 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user account profile containing owner-scoped PII.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the user." },
+        "displayName": { "type": "string", "description": "Display name shown in profile and posts." },
+        "email": { "type": "string", "description": "Private email address (owner-only)." },
+        "photoUrl": { "type": "string", "description": "Profile avatar URL." },
+        "bio": { "type": "string", "description": "Short user biography." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server update timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["userId", "displayName", "createdAt", "updatedAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Multi-format social feed post supporting text, image, video, song, file, or link uploads with view tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Author UID." },
+        "authorName": { "type": "string", "description": "Denormalized author display name." },
+        "authorPhotoUrl": { "type": "string", "description": "Denormalized author avatar URL." },
+        "postType": { "type": "string", "enum": ["TEXT", "IMAGE", "VIDEO", "SONG", "FILE", "LINK"], "description": "Content format of the post." },
+        "visibility": { "type": "string", "enum": ["PUBLIC", "PRIVATE"], "description": "Post visibility scope." },
+        "caption": { "type": "string", "description": "Post text caption or status body." },
+        "textBgHex": { "type": "string", "description": "Optional background hex color for styled text posts." },
+        "title": { "type": "string", "description": "Optional media/song/file/link title." },
+        "subtitle": { "type": "string", "description": "Optional artist, domain, or MIME description." },
+        "mediaUrl": { "type": "string", "description": "Optional external HTTPS URL." },
+        "localUri": { "type": "string", "description": "Optional local content URI for device media." },
+        "mediaBase64": { "type": "string", "description": "Compressed inline JPEG Base64 image or thumbnail." },
+        "fileName": { "type": "string", "description": "Original filename for song/video/file uploads." },
+        "mimeType": { "type": "string", "description": "MIME type for file/audio/video." },
+        "fileSizeBytes": { "type": "integer", "description": "File size in bytes." },
+        "durationMs": { "type": "integer", "description": "Audio or video duration in milliseconds." },
+        "likesCount": { "type": "integer", "description": "Total reaction/like count." },
+        "commentsCount": { "type": "integer", "description": "Total comment count." },
+        "sharesCount": { "type": "integer", "description": "Total share count." },
+        "viewsCount": { "type": "integer", "description": "Total view count." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server update timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["userId", "authorName", "postType", "visibility", "caption", "likesCount", "commentsCount", "sharesCount", "viewsCount", "createdAt", "updatedAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "User comment on a public post.",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string", "description": "Parent post document ID." },
+        "postVisibility": { "type": "string", "enum": ["PUBLIC"], "description": "Denormalized visibility of parent post." },
+        "postOwnerId": { "type": "string", "description": "UID of parent post owner." },
+        "userId": { "type": "string", "description": "UID of comment author." },
+        "authorName": { "type": "string", "description": "Display name of comment author." },
+        "authorPhotoUrl": { "type": "string", "description": "Avatar URL of comment author." },
+        "text": { "type": "string", "description": "Comment body text." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["postId", "postVisibility", "postOwnerId", "userId", "authorName", "text", "createdAt"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "Short-form social story card shown in the top stories strip.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Author UID." },
+        "authorName": { "type": "string", "description": "Author display name." },
+        "authorPhotoUrl": { "type": "string", "description": "Author avatar URL." },
+        "visibility": { "type": "string", "enum": ["PUBLIC"], "description": "Story visibility." },
+        "caption": { "type": "string", "description": "Story status text." },
+        "mediaBase64": { "type": "string", "description": "Optional compressed photo Base64." },
+        "bgHex": { "type": "string", "description": "Background accent color hex." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["userId", "authorName", "visibility", "caption", "bgHex", "createdAt"]
+    },
+    "UserPostRef": {
+      "title": "UserPostRef",
+      "description": "User-scoped reference to a liked or saved post.",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string", "description": "Referenced post ID." },
+        "userId": { "type": "string", "description": "Owner user ID." },
+        "reaction": { "type": "string", "description": "Optional reaction type (LIKE, LOVE, HAHA, WOW, FIRE)." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["postId", "userId", "createdAt"]
+    },
+    "FollowRef": {
+      "title": "FollowRef",
+      "description": "User-scoped following creator reference.",
+      "type": "object",
+      "properties": {
+        "targetUserId": { "type": "string", "description": "Followed creator UID." },
+        "targetName": { "type": "string", "description": "Followed creator display name." },
+        "userId": { "type": "string", "description": "Follower UID." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["targetUserId", "userId", "createdAt"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "Social activity notification for likes, comments, shares, and follows.",
+      "type": "object",
+      "properties": {
+        "recipientId": { "type": "string", "description": "Recipient UID." },
+        "actorId": { "type": "string", "description": "Sender UID." },
+        "actorName": { "type": "string", "description": "Sender display name." },
+        "type": { "type": "string", "enum": ["LIKE", "COMMENT", "FOLLOW", "SHARE"], "description": "Notification type." },
+        "postId": { "type": "string", "description": "Optional related post ID." },
+        "message": { "type": "string", "description": "Notification summary." },
+        "read": { "type": "boolean", "description": "Whether notification was read." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["recipientId", "actorId", "actorName", "type", "message", "read", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Owner-only user profile documents."
+    },
+    "/users/{userId}/liked_posts/{postId}": {
+      "schema": { "$ref": "#/entities/UserPostRef" },
+      "description": "User-scoped liked post references."
+    },
+    "/users/{userId}/saved_posts/{postId}": {
+      "schema": { "$ref": "#/entities/UserPostRef" },
+      "description": "User-scoped saved/bookmarked post references."
+    },
+    "/users/{userId}/following/{targetUserId}": {
+      "schema": { "$ref": "#/entities/FollowRef" },
+      "description": "User-scoped following creator references."
+    },
+    "/users/{userId}/notifications/{notifId}": {
+      "schema": { "$ref": "#/entities/NotificationItem" },
+      "description": "User-scoped activity notifications."
+    },
+    "/posts/{postId}": {
+      "schema": { "$ref": "#/entities/Post" },
+      "description": "Social feed posts supporting text, image, video, song, file, and link uploads."
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/Comment" },
+      "description": "Comments attached to public posts."
+    },
+    "/stories/{storyId}": {
+      "schema": { "$ref": "#/entities/Story" },
+      "description": "Public stories displayed in the top stories carousel."
+    }
+  }
+}
